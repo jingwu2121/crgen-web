@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+    rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎥</text></svg>"
+    />
+    
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="./src/dics.css"> 
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+
+    <title>CR-Gen</title>
+    <meta name="title" content="CR-Gen: Towards Per-Pixel Image Quality Evaluation for 3D-Related
+    Generation Tasks" />
+    <meta name="description" content="Generative Metrics, Video Diffusion, 3D Vision" />
+</head>
+<body>
+
+    <section class="nav-bar">
+        <div class="nav-bear__item">
+            <a href="#abstract">Abstract</a>
+        </div>
+        <div class="nav-bear__item">
+            <a href="#method">Method</a>
+        </div>
+        <div class="nav-bear__item">
+            <a href="#results">Results</a>
+        </div>
+        <div class="nav-bear__item">
+            <a href="#citation">Citation</a>
+        </div>
+    </section>
+
+    <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="10%" height="10%">
+        <circle cx="100" cy="100" r="90" fill="#1D3557" />
+        <circle cx="100" cy="100" r="70" fill="#457B9D" />
+        <text x="50" y="130" font-family="Arial, sans-serif" font-size="100" fill="#A8DADC">G</text>
+        <text x="105" y="130" font-family="Arial, sans-serif" font-size="100" fill="#A8DADC">C</text>
+      </svg> -->
+      
+      
+    <section class="hero">
+        <div class="title">
+            <!-- <h1 class="text-5xl font-bold font-sans">
+                GaussCtrl
+            </h1> -->
+    
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"  width="10%" height="10%">
+                <path d="M67.5,67.5v65c0,8.28,6.72,15,15,15h45c8.28,0,15-6.72,15-15v-65c0-8.28-6.72-15-15-15h-45C74.22,52.5,67.5,59.22,67.5,67.5z" fill="#98c1e1"/>
+                <path d="M112.5,52.5h-45c-8.28,0-15,6.72-15,15v65c0,8.28,6.72,15,15,15h45c8.28,0,15-6.72,15-15v-65C127.5,59.22,120.78,52.5,112.5,52.5z" fill="#98c1e1"/>
+                <path d="M127.5,97.5h-45c-8.28,0-15,6.72-15,15v20c0,8.28,6.72,15,15,15h45c8.28,0,15-6.72,15-15v-20C142.5,104.22,135.78,97.5,127.5,97.5z" fill="#98c1e1"/>
+                <path d="M102.5,127.5h-20c-8.28,0-15,6.72-15,15v20c0,8.28,6.72,15,15,15h20c8.28,0,15-6.72,15-15v-20C117.5,134.22,110.78,127.5,102.5,127.5z" fill="#FFFFFF"/>
+                <path d="M77.5,127.5H67.5c-8.28,0-15,6.72-15,15v20c0,8.28,6.72,15,15,15h10c8.28,0,15-6.72,15-15v-20C92.5,134.22,85.78,127.5,77.5,127.5z" fill="#FFFFFF"/>
+                <path d="M77.5,112.5H67.5c-8.28,0-15,6.72-15,15v10c0,8.28,6.72,15,15,15h10c8.28,0,15-6.72,15-15v-10C92.5,119.22,85.78,112.5,77.5,112.5z" fill="#FFFFFF"/>
+                
+                <path d="M167.5,67.5v65c0,8.28-6.72,15-15,15h-45c-8.28,0-15-6.72-15-15v-65c0-8.28,6.72-15,15-15h45C160.78,52.5,167.5,59.22,167.5,67.5z" fill="#ff8800"/>
+                <path d="M122.5,52.5h45c8.28,0,15,6.72,15,15v65c0,8.28-6.72,15-15,15h-45c-8.28,0-15-6.72-15-15v-65C107.5,59.22,114.22,52.5,122.5,52.5z" fill="#ff8800"/>
+                <path d="M107.5,97.5h45c8.28,0,15,6.72,15,15v20c0,8.28-6.72,15-15,15h-45c-8.28,0-15-6.72-15-15v-20C92.5,104.22,99.22,97.5,107.5,97.5z" fill="#ff8800"/>
+                <path d="M132.5,127.5h20c8.28,0,15,6.72,15,15v20c0,8.28-6.72,15-15,15h-20c-8.28,0-15-6.72-15-15v-20C117.5,134.22,124.22,127.5,132.5,127.5z" fill="#FF9800"/>
+                <path d="M157.5,127.5h10c8.28,0,15,6.72,15,15v20c0,8.28-6.72,15-15,15h-10c-8.28,0-15-6.72-15-15v-20C142.5,134.22,149.22,127.5,157.5,127.5z" fill="#FF9800"/>
+                <path d="M157.5,112.5h10c8.28,0,15,6.72,15,15v10c0,8.28-6.72,15-15,15h-10c-8.28,0-15-6.72-15-15v-10C142.5,119.22,149.22,112.5,157.5,112.5z" fill="#FF9800"/>
+              </svg> -->
+    
+            <h2 class="heading text-4xl">
+                <i>CR-Gen</i>: Towards Per-Pixel Image Quality Evaluation for 3D-Related
+            </h2>
+    
+    
+            <div class="conference">
+                <h3 class="text-3xl">
+                    ArXiv2025
+                </h3>
+            </div>
+    
+            <div class="author-list text-2xl flex flex-wrap">
+                <div class="name"><a href="https://jwbian.net/" class="name-link" target="_blank">Zirui Wang<sup>*</sup> </a></div>
+                <div class="name"><a href="https://jingwu2121.github.io/" class="name-link" target="_blank">Jing Wu<sup>*</sup> </a></div>
+                <div class="name"><a href="https://xinghui-li.github.io/" class="name-link" target="_blank">Iro Laina</a></div>
+                <div class="name"><a href="https://www.robots.ox.ac.uk/~victor/" class="name-link" target="_blank">Victor Adrian Prisacariu</a></div>
+            </div>
+
+            <div class="orgnization-list text-1xl flex flex-wrap">
+                * denotes equal contribution
+            </div>
+    
+            <div class="orgnization-list text-1xl flex flex-wrap">
+                University of Oxford
+                <!-- <ol type="1">
+                    <li>University of Oxford</li>
+                </ol> -->
+            </div>
+        </div>
+    </section>
+
+    
+
+    <section class="button-group">
+
+        <div class="button">
+            
+            <a href="#" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
+                    <path fill-rule="evenodd" d="M4.125 3C3.089 3 2.25 3.84 2.25 4.875V18a3 3 0 0 0 3 3h15a3 3 0 0 1-3-3V4.875C17.25 3.839 16.41 3 15.375 3H4.125ZM12 9.75a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H12Zm-.75-2.25a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5H12a.75.75 0 0 1-.75-.75ZM6 12.75a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5H6Zm-.75 3.75a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75ZM6 6.75a.75.75 0 0 0-.75.75v3c0 .414.336.75.75.75h3a.75.75 0 0 0 .75-.75v-3A.75.75 0 0 0 9 6.75H6Z" clip-rule="evenodd" />
+                    <path d="M18.75 6.75h1.875c.621 0 1.125.504 1.125 1.125V18a1.5 1.5 0 0 1-3 0V6.75Z" />
+                </svg>                  
+                Paper
+            </a>
+        </div>
+
+        <div class="button">
+            <a href="#" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor" class="icon">
+                    <path fill-rule="evenodd" d="M2.25 6a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
+                </svg>
+                <div>Code</div>
+            </a>
+        </div>
+
+        <!-- <div class="button">
+            <a href="#" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor" class="icon">
+                    <path d="M21 6.375c0 2.692-4.03 4.875-9 4.875S3 9.067 3 6.375 7.03 1.5 12 1.5s9 2.183 9 4.875Z" />
+                    <path d="M12 12.75c2.685 0 5.19-.586 7.078-1.609a8.283 8.283 0 0 0 1.897-1.384c.016.121.025.244.025.368C21 12.817 16.97 15 12 15s-9-2.183-9-4.875c0-.124.009-.247.025-.368a8.285 8.285 0 0 0 1.897 1.384C6.809 12.164 9.315 12.75 12 12.75Z" />
+                    <path d="M12 16.5c2.685 0 5.19-.586 7.078-1.609a8.282 8.282 0 0 0 1.897-1.384c.016.121.025.244.025.368 0 2.692-4.03 4.875-9 4.875s-9-2.183-9-4.875c0-.124.009-.247.025-.368a8.284 8.284 0 0 0 1.897 1.384C6.809 15.914 9.315 16.5 12 16.5Z" />
+                    <path d="M12 20.25c2.685 0 5.19-.586 7.078-1.609a8.282 8.282 0 0 0 1.897-1.384c.016.121.025.244.025.368 0 2.692-4.03 4.875-9 4.875s-9-2.183-9-4.875c0-.124.009-.247.025-.368a8.284 8.284 0 0 0 1.897 1.384C6.809 19.664 9.315 20.25 12 20.25Z" />
+                </svg>
+                <div>Data</div>
+            </a>
+        </div> -->
+
+    </section>
+
+    <!-- <div style="margin-top: 2rem;">
+        <div style="display: flex; justify-content: center; ">
+            <video controls>
+                <source src="assets/teaser_vid.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+            </video>
+        </div>
+        
+    </div>
+    <div class="teaser-caption text-center"><i>*Selected Examples</i></div> -->
+
+    
+    <!-- Abstract -->
+    <div class="abstract" >
+        <a id="abstract">
+            <h2 class="text-3xl" >
+                <b>Abstract</b>
+            </h2>
+        </a>
+        <p>
+            Advancements in 3D content generation have transformed tasks like video generation, multi-view synthesis, and 3D asset creation, but ensuring 3D spatial consistency remains challenging. Commonly used metrics, such as the CLIPScore, often fail to capture 3D consistency. To address this, we introduce <i>CR-Gen</i>, a novel framework for evaluating spatial consistency in 3D-generated content without requiring multi-view ground truth. Our approach involves pre-training on novel view synthesis tasks and fine-tuning to handle domain-specific challenges like dynamic and deformable objects. Additionally, we propose a keyframe-based user study method for video evaluation to ensure reliable assessments by minimizing content discrepancies between video pairs. Extensive experiments and user studies validate the effectiveness of <i>CR-Gen</i> across 3D generation, editing, and video scenarios.
+        </p>
+    </div>
+
+    <!-- Method -->
+    <div class="abstract" >
+        <a id="method">
+            <h2 class="text-3xl" >
+                <b>Method</b>
+            </h2>
+        </a>
+        <p>
+            <i>CR-Gen</i> generates a per-pixel map to evaluate the generated image quality in multiple generative tasks, e.g. video generation, 3D multi-view generation and 3D editing, where ground-truth images are unavailable for evaluation.  
+
+        </p>
+        <div style="display: flex; justify-content: center;">
+            <img src="assets/method.svg" alt="Method Figure" style="margin-top: 2rem; width: 90%; "/>
+        </div>
+    </div>
+    
+    <!-- Method2 -->
+    <!-- <div class="abstract">
+    We also provide an animated illustration. 
+        <div class="method-illustration">
+            <div class="viewer-group">
+                <div class="viewer-3d">
+                    <model-viewer src="./3d_models/bearstatue_cropped.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce" shadow-intensity="1" camera-orbit="39.91deg 75.19deg 4.273m" field-of-view="30deg" auto-rotate environment-image="legacy" auto-rotate>
+                        <div class="progress-bar hide" slot="progress-bar">
+                            <div class="update-bar"></div>
+                        </div>
+                    </model-viewer>
+                </div>
+                <div class="text-wrap" style="padding: 1rem 2rem 1rem 2rem; align-content: center; border-left: 1px solid rgba(117, 117, 117, 0.2);">
+                    <h2 >Depth-conditioned Image Editing</h2>
+                    <p>
+                        Given a pre-trained 3D model (3DGS/NeRF), RGB and depth images are first rendered. Latent codes are obtained through DDIM inversion conditioned on depth and a description text prompt. <br>
+                        By doing so, multi-view consistency during editing is greatly improved, because the original images have naturally consistent colour and geometry.
+                    </p>
+                </div>
+            </div>
+
+            <div class="method-gif">
+                <img src="./assets/method_gif.gif"  alt="" >
+            </div>
+            
+            <div class="viewer-group">
+                <div style="padding: 1rem 2rem 1rem 2rem; align-content: center; border-right: 1px solid rgba(117, 117, 117, 0.2);">
+                    <h2>Attention-based Latent Code Alignment</h2>
+                    <p>During the generation process, we select a few reference views randomly and align all other views to these reference views based on our Attention-based Latent Code Alignment module to encourage multi-view consistency during generation. </p>
+                </div>
+                <div class="viewer-3d">
+                    <model-viewer src="./3d_models/polarbear_cropped.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce" shadow-intensity="1" camera-orbit="39.91deg 75.19deg 4.273m" field-of-view="30deg" auto-rotate environment-image="legacy">
+                        <div class="progress-bar hide" slot="progress-bar">
+                            <div class="update-bar"></div>
+                        </div>
+                    </model-viewer>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    
+    <!-- <section class="video" >
+        <h2 class="text-3xl text-center" >
+            <b>Videos</b>
+        </h2>
+        <div class="video-container">
+            <iframe 
+                src="https://www.youtube.com/embed/DFEaV1TAXgQ" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </section> -->
+    
+    <!-- Result -->
+    <div class="abstract" >
+        <a id="results">
+            <h2 class="text-3xl" >
+                <b>Results</b>
+            </h2>
+        </a>
+        <p>
+            Here, we include more examples besides those in our paper. 
+        </p>
+    </div>
+
+    <!-- <div class="results-container"> 
+        <div style="display: flex; justify-content: center;">
+            <video controls>
+                <source src="assets/fangzhou.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
+            <video controls>
+                <source src="assets/face.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <div style="display: flex; justify-content: center;">
+            <video controls>
+                <source src="assets/bear_stonehorse.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
+            <video controls>
+                <source src="assets/dinosaur.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <div style="display: flex; justify-content: center;">
+            <video controls>
+                <source src="assets/garden.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+        </div>
+    </div> -->
+
+
+    <!-- Citation -->
+    <div class="abstract" >
+        <a id="citation">
+            <h2 class="text-3xl" >
+                <b>Citation</b>
+            </h2>
+        </a>
+        <p>
+            If you use this work or find it helpful, please consider citing: (bibtex)
+        </p>
+        <div class="citation">
+            @article{wangCRGen2025, <br>
+                author = {Wang, Zirui and Wu, Jing and Laina, Iro and and Prisacariu, Victor}, <br>
+                title = {{CR-Gen: Towards Per-Pixel Image Quality Evaluation for 3D-Related}}, <br>
+                journal = {ArXiv}, <br>
+                year = {2025},<br>
+               } 
+        </div>
+    </div>
+
+    <!-- Acknowledgement -->
+    <!-- <div class="abstract">
+        <h2 class="text-3xl" >
+            <b>Acknowledgement</b>
+        </h2>
+        <p>
+            Special thanks to Zirui Wang for discussion. 
+        </p>
+    </div>
+
+    <a href="https://clustrmaps.com/site/1c0j3"  title="Visit tracker"></a> -->
+
+    <div class="footer">
+        Copyright <b>CR-Gen</b>. &nbsp All Rights Reserved.
+    </div>
+
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/index.js"></script>
+    <script src="./src/original/dics.original.js"></script>
+    <script src="script.js" ></script>
+</body>
+</html>

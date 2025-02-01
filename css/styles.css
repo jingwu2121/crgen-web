@@ -33,15 +33,17 @@ ol li {
 .nav-bar {
     background-color: var(--color-dark);
     color: var(--color-primary);
+    /* width: 100%;
     font-size: large;
     display: flex;
     align-items: center; 
+    padding: 0.5rem 4rem 0.5rem 4rem; */
+    overflow-x: hidden;
+    font-size: large;
+    width: 100%;
+    display: flex;
     justify-content: space-evenly;
-    padding: 0.5rem 4rem 0.5rem 4rem;
-    /* position: fixed; 
-    top: 0; 
-    width: 100%; 
-    z-index: 100; */
+    padding: 1rem;
 }
 
 .nav-bear__item {
@@ -55,6 +57,7 @@ ol li {
     /* background-color: aqua; */
     height: fit-content;
     text-align: center;
+    overflow-x: hidden;
 }
 
 .heading {
@@ -88,6 +91,7 @@ ol li {
 
 .button-group {
     /* background-color: rgb(43, 226, 134); */
+    overflow-x: hidden;
     display: flex;
     justify-content: space-evenly;
     margin-left: 15%;
@@ -138,6 +142,7 @@ ol li {
 
 /* Abstract */
 .abstract {
+    overflow-x: hidden;
     text-align: left;
     /* background-color: aquamarine; */
     margin-left: 15%;
